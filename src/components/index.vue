@@ -44,14 +44,14 @@
               </option>
             </select>
           </div>
-          <div class="cx-row">
+          <label class="cx-field">
             <span>API Key</span>
-            <input v-model="api_key" class="cx-input-ai" />
-          </div>
-          <div class="cx-row">
+            <input v-model="api_key" class="cx-input-ai" type="password" placeholder="Bearer token" />
+          </label>
+          <label class="cx-field">
             <span>Request URL</span>
-            <input v-model="aiAnswerUrl" class="cx-input-ai" />
-          </div>
+            <input v-model="aiAnswerUrl" class="cx-input-ai" placeholder="https://docs.newapi.pro/v1/messages" />
+          </label>
         </div>
       </div>
 
@@ -519,6 +519,20 @@ onBeforeUnmount(() => {
   font-size: 12px;
   color: #ccc;
 }
+.cx-field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 6px 0;
+  font-size: 12px;
+  color: #b8beca;
+}
+
+.cx-field span {
+  padding-left: 2px;
+  font-size: 11px;
+  color: #8b92a5;
+}
 
 /* STYLE_PART3 */
 .cx-switch {
@@ -574,6 +588,34 @@ onBeforeUnmount(() => {
 
 .cx-select:focus {
   border-color: rgba(99, 102, 241, 0.5);
+}
+
+.cx-input-ai {
+  width: 100%;
+  box-sizing: border-box;
+  background: rgba(7, 12, 22, 0.72);
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  border-radius: 8px;
+  color: #f1f5f9;
+  padding: 7px 9px;
+  font-size: 12px;
+  line-height: 1.3;
+  outline: none;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  transition:
+    border-color 0.15s,
+    background 0.15s,
+    box-shadow 0.15s;
+}
+.cx-input-ai::placeholder {
+  color: rgba(148, 163, 184, 0.45);
+}
+.cx-input-ai:focus {
+  background: rgba(15, 23, 42, 0.92);
+  border-color: rgba(129, 140, 248, 0.72);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 0 0 2px rgba(99, 102, 241, 0.16);
 }
 
 .cx-input-num {

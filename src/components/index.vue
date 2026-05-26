@@ -34,7 +34,7 @@
         <div class="cx-section-body" v-show="sections.ai">
           <div class="cx-row">
             <span>AI 模型</span>
-            <select v-model="config.aiModel" class="cx-select cx-select-ai">
+            <select v-model="config.aiModel" class="cx-select cx-select-ai" @change="saveSession">
               <option
                 v-for="model in aiModels"
                 :key="model.value"
@@ -46,11 +46,11 @@
           </div>
           <label class="cx-field">
             <span>API Key</span>
-            <input v-model="api_key" class="cx-input-ai" type="password" placeholder="Bearer token" />
+            <input v-model="api_key" class="cx-input-ai" type="password" placeholder="Bearer token" @input="saveSession" />
           </label>
           <label class="cx-field">
             <span>Request URL</span>
-            <input v-model="aiAnswerUrl" class="cx-input-ai" placeholder="https://docs.newapi.pro/v1/messages" />
+            <input v-model="aiAnswerUrl" class="cx-input-ai" placeholder="https://docs.newapi.pro/v1/messages" @input="saveSession" />
           </label>
         </div>
       </div>
@@ -200,7 +200,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed, onMounted, onBeforeUnmount } from "vue";
+import { ref, reactive, computed, watch, onMounted, onBeforeUnmount } from "vue";
 
 const isCollapsed = ref(false);
 const pos = reactive({ x: 20, y: 100 });
@@ -274,6 +274,42 @@ const panelStyle = computed(() => ({
 
 const api_key = ref("");
 const aiAnswerUrl = ref("https://docs.newapi.pro/v1/messages");
+const sessionKey = "cx-skills-session";
+
+function readSession() {
+  if (typeof GM_getValue !== "function") return {};
+  const raw = GM_getValue(sessionKey, "");
+  if (!raw) return {};
+  if (typeof raw === "string") {
+    try {
+      return JSON.parse(raw);
+    } catch {
+      return {};
+    }
+  }
+  return raw && typeof raw === "object" ? raw : {};
+}
+
+function saveSession() {
+  if (typeof GM_setValue !== "function") return;
+  GM_setValue(
+    sessionKey,
+    JSON.stringify({
+      api_key: api_key.value,
+      aiAnswerUrl: aiAnswerUrl.value,
+      aiModel: config.aiModel,
+    })
+  );
+}
+
+function loadSession() {
+  const session = readSession();
+  api_key.value = session.api_key || "";
+  aiAnswerUrl.value = session.aiAnswerUrl || "https://docs.newapi.pro/v1/messages";
+  config.aiModel = session.aiModel || config.aiModel;
+}
+
+watch([api_key, aiAnswerUrl, () => config.aiModel], saveSession);
 
 async function askAiAnswer(question) {
   const body = JSON.stringify({
@@ -339,6 +375,7 @@ function stopDrag() {
 }
 
 onMounted(() => {
+  loadSession();
   statusText.value = "页面就绪";
 });
 

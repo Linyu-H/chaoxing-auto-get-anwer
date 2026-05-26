@@ -16,7 +16,7 @@ export default defineConfig({
           'https://*.xueyinonline.com/*',
           'https://*.xuexitong.com/*'
         ],
-        grant: 'none',
+        grant: ['GM_getValue', 'GM_setValue'],
       },
     })
   ],

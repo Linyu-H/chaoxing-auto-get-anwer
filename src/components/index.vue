@@ -195,6 +195,14 @@
           <div v-if="logs.length === 0" class="cx-log-empty">暂无日志</div>
         </div>
       </div>
+
+      <!-- 开始按钮 -->
+      <div class="cx-start-wrap">
+        <button class="cx-start-btn" @click="run">
+          <span class="cx-start-icon">▶</span>
+          <span class="cx-start-text">开始</span>
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -372,6 +380,11 @@ function stopDrag() {
   dragging.value = false;
   document.removeEventListener("mousemove", onDrag);
   document.removeEventListener("mouseup", stopDrag);
+}
+
+// 开始答题
+function run() {
+
 }
 
 onMounted(() => {
@@ -720,5 +733,62 @@ onBeforeUnmount(() => {
   color: #555;
   text-align: center;
   padding: 8px 0;
+}
+
+.cx-start-wrap {
+  padding: 4px 12px 12px;
+}
+.cx-start-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border: 1px solid rgba(129, 140, 248, 0.45);
+  border-radius: 8px;
+  background: linear-gradient(
+    135deg,
+    rgba(99, 102, 241, 0.85),
+    rgba(139, 92, 246, 0.85)
+  );
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  box-shadow:
+    0 4px 12px rgba(99, 102, 241, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.2s ease,
+    filter 0.2s ease;
+}
+.cx-start-btn:hover {
+  filter: brightness(1.1);
+  box-shadow:
+    0 6px 18px rgba(99, 102, 241, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
+}
+.cx-start-btn:active {
+  transform: translateY(0);
+  box-shadow:
+    0 2px 6px rgba(99, 102, 241, 0.3),
+    inset 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+.cx-start-btn:focus-visible {
+  outline: none;
+  box-shadow:
+    0 4px 12px rgba(99, 102, 241, 0.3),
+    0 0 0 2px rgba(129, 140, 248, 0.5);
+}
+.cx-start-icon {
+  font-size: 11px;
+  line-height: 1;
+}
+.cx-start-text {
+  line-height: 1;
 }
 </style>

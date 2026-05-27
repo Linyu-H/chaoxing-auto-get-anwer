@@ -384,7 +384,11 @@ function stopDrag() {
 
 // 开始答题
 function run() {
-
+  // 获取body
+  const body = document.body
+  // 获取所有下滑ppt组件
+  const pptList = body.querySelectorAll(ans-attach-ct)
+  for (const ppt of pptList) ppt.scrollTo({ top: ppt.scrollHeight, behavior: 'smooth' });
 }
 
 onMounted(() => {

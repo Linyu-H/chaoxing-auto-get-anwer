@@ -387,8 +387,15 @@ function run() {
   // 获取body
   const body = document.body
   // 获取所有下滑ppt组件
-  const pptList = body.querySelectorAll(ans-attach-ct)
-  for (const ppt of pptList) ppt.scrollTo({ top: ppt.scrollHeight, behavior: 'smooth' });
+  const pptList = body.querySelectorAll('.ans-attach-ct')
+  for(const ppt of pptList){
+    const f=ppt.querySelector('iframe');
+    f&&f.contentWindow?.scrollTo(
+      {top:f.contentDocument.documentElement.scrollHeight,
+        behavior:'smooth'
+      }
+    )
+  }
 }
 
 onMounted(() => {
